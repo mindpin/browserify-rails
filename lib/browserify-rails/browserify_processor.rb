@@ -119,6 +119,14 @@ module BrowserifyRails
       @asset_paths ||= Rails.application.config.assets.paths.collect { |p| p.to_s }.join(":") || ""
     end
 
+    def node_paths
+      @node_paths ||= config.node_paths.collect {|p| p.to_s }.join(":") || ""
+    end
+
+    def note_paths_and_asset_paths
+      @note_paths_and_asset_paths ||= [node_paths, asset_paths].select { |p| !p.blank? }.join(":")
+    end
+
     # This primarily filters out required files from node modules
     #
     # @return [<String>] Paths of dependencies to evaluate
@@ -154,7 +162,7 @@ module BrowserifyRails
     # how to build. Example: https://facebook.github.io/react/downloads.html#npm
     def env
       env_hash = {}
-      env_hash["NODE_PATH"] = asset_paths unless uses_exorcist
+      env_hash["NODE_PATH"] = note_paths_and_asset_paths unless uses_exorcist
       env_hash["NODE_ENV"] = config.node_env || Rails.env
       env_hash
     end

@@ -19,6 +19,8 @@ module BrowserifyRails
     # Environments to generate source maps in
     config.browserify_rails.source_map_environments = []
 
+    config.browserify_rails.node_paths = []
+
     # Use browserifyinc instead of browserify
     # TODO figure out how to handle module paths being in output
     # until then, disable in staging and production
